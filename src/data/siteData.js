@@ -4,6 +4,7 @@ export const SERVICES = [
   { icon: "⚙️", title: "Mechanical Works", desc: "Industrial mechanical installations, pumping systems, diesel generators, and elevators." },
   { icon: "🌡️", title: "HVAC Systems", desc: "Design and installation of HVAC systems for hospitals and government buildings." },
   { icon: "🏗️", title: "Civil & Construction", desc: "Infrastructure, hospitals, colleges, judicial complexes, and government buildings." },
+  { icon: "💻", title: "IT Infrastructure", desc: "Design and implementation of IT infrastructure including networking, servers, data centers, and system integration." },
 ];
 
 export const ONGOING = [
