@@ -7,10 +7,22 @@ export const SERVICES = [
   { icon: "💻", title: "IT Infrastructure", desc: "Design and implementation of IT infrastructure including networking, servers, data centers, and system integration." },
 ];
 
+import st1 from "../assets/projectImages/project1/st1.png";
+import st2 from "../assets/projectImages/project1/st2.png";
+import st3 from "../assets/projectImages/project1/st3.png";
+import st4 from "../assets/projectImages/project1/st4.png";
+import st5 from "../assets/projectImages/project1/st5.png";
+import st6 from "../assets/projectImages/project1/st6.png";
+import st7 from "../assets/projectImages/project1/st7.png";
+import st8 from "../assets/projectImages/project1/st8.png";
+
+
+
 export const ONGOING = [
   {
     title: "Feasibility & Improvement of Arbab Niaz Cricket Stadium Peshawar",
     location: "Peshawar",
+    images: [st1, st2, st3, st4, st5, st6, st7, st8],
   },
   {
     title: "Construction of 06 Nos. Court Rooms Judicial Complexes at Mansehra",

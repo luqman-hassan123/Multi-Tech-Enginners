@@ -1,118 +1,311 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import useInView from "../hooks/useInView";
 import { ONGOING, EXECUTED } from "../data/siteData";
-import SectionHeader from "./SectionHeader";
+
+const PER_PAGE = 4;
 
 export default function Projects() {
   const [tab, setTab] = useState("ongoing");
-  const [hovered, setHovered] = useState(null);
+  const [page, setPage] = useState(0);
+  const [selected, setSelected] = useState(null);
+  const [activeImg, setActiveImg] = useState(0);
+
+  const trackRef = useRef(null);
   const [ref] = useInView();
 
   const projects = tab === "ongoing" ? ONGOING : EXECUTED;
+  const totalPages = Math.ceil(projects.length / PER_PAGE);
+  const isOngoing = tab === "ongoing";
+  const isSinglePage = projects.length <= PER_PAGE;
+
+  useEffect(() => setPage(0), [tab]);
+
+  useEffect(() => {
+    if (!trackRef.current || isSinglePage) return;
+    const card = trackRef.current.firstChild;
+    if (!card) return;
+    const cardW = card.offsetWidth + 22;
+    trackRef.current.style.transform = `translateX(-${page * PER_PAGE * cardW}px)`;
+  }, [page, tab]);
+
+  useEffect(() => {
+    document.body.style.overflow = selected ? "hidden" : "";
+    return () => (document.body.style.overflow = "");
+  }, [selected]);
+
+  const openModal = (proj, i) => {
+    setSelected({ proj, index: i });
+    setActiveImg(0);
+  };
 
   return (
-    <section
-      id="projects"
-      ref={ref}
-      style={{ padding: "100px 24px", background: "#020d24" }}
-    >
-      <SectionHeader 
-      // tag="Portfolio" 
-      title="Projects" />
-
-      {/* Tab Buttons */}
-      <div style={{ display: "flex", justifyContent: "center", gap: 12, marginBottom: 48 }}>
-        {["ongoing", "executed"].map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            style={{
-              padding: "10px 28px",
-              borderRadius: 999,
-              border: tab === t ? "none" : "1px solid rgba(255,255,255,0.2)",
-              background: tab === t ? "#3b82f6" : "transparent",
-              color: tab === t ? "#fff" : "rgba(255,255,255,0.6)",
-              fontWeight: 600,
-              fontSize: "0.9rem",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              textTransform: "capitalize",
-            }}
-          >
-            {t}
-          </button>
-        ))}
-      </div>
-
-      {/* Project Cards */}
-      <div
-        style={{
-          maxWidth: "80rem",
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          gap: 24,
-        }}
+    <>
+      {/* HEADER */}
+      <section
+        id="projects"
+        ref={ref}
+        style={{ padding: "90px 0", background: "#f8fbff" }}
       >
-        {projects.map((p, i) => (
+        <div style={{ maxWidth: 1200, margin: "auto", padding: "0 24px" }}>
+          <div style={{ textAlign: "center", marginBottom: 40 }}>
+            <h2 style={{ fontSize: 40, fontWeight: 800, color: "#0f172a" }}>
+              Our Projects
+            </h2>
+            <p style={{ color: "#64748b", marginTop: 10 }}>
+              Excellence in infrastructure, construction & electrification
+              across Pakistan
+            </p>
+
+            <button
+              style={{
+                marginTop: 18,
+                padding: "12px 26px",
+                borderRadius: 30,
+                border: "none",
+                background: "linear-gradient(90deg,#1d4ed8,#3b82f6)",
+                color: "#fff",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "0.3s",
+              }}
+              onMouseOver={(e) => (e.target.style.transform = "scale(1.05)")}
+              onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+            >
+              Explore All Projects
+            </button>
+          </div>
+
+          {/* TABS */}
           <div
-            key={i}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
             style={{
-              background: hovered === i ? "#0f2d6b" : "#061a4a",
-              border: hovered === i ? "1px solid #3b82f6" : "1px solid transparent",
-              borderRadius: 16,
-              padding: 28,
-              transform: hovered === i ? "translateY(-6px)" : "translateY(0)",
-              boxShadow: hovered === i ? "0 12px 40px rgba(59,130,246,0.2)" : "0 2px 10px rgba(0,0,0,0.3)",
-              transition: "all 0.3s ease",
-              cursor: "default",
+              display: "flex",
+              justifyContent: "center",
+              marginBottom: 40,
             }}
           >
-            {/* Status badge */}
-            <span
+            <div
               style={{
-                display: "inline-block",
-                padding: "3px 12px",
-                borderRadius: 999,
-                fontSize: "0.75rem",
-                fontWeight: 600,
-                marginBottom: 14,
-                background: tab === "ongoing" ? "rgba(59,130,246,0.15)" : "rgba(34,197,94,0.15)",
-                color: tab === "ongoing" ? "#60a5fa" : "#4ade80",
+                display: "flex",
+                gap: 10,
+                background: "#eaf2ff",
+                padding: 6,
+                borderRadius: 14,
               }}
             >
-              {tab === "ongoing" ? "● In Progress" : "✓ Completed"}
-            </span>
-
-            <h3
-              style={{
-                color: hovered === i ? "#93c5fd" : "#ffffff",
-                fontSize: "1rem",
-                fontWeight: 600,
-                lineHeight: 1.5,
-                margin: 0,
-                transition: "color 0.3s ease",
-              }}
-            >
-              {typeof p === "string" ? p : p.title}
-            </h3>
-
-            {/* Show extra info if available */}
-            {p.client && (
-              <p style={{ color: "rgba(255,255,255,0.5)", fontSize: "0.85rem", marginTop: 8 }}>
-                Client: {p.client}
-              </p>
-            )}
-            {p.location && (
-              <p style={{ color: "rgba(255,255,255,0.4)", fontSize: "0.8rem", marginTop: 4 }}>
-                📍 {p.location}
-              </p>
-            )}
+              {["ongoing", "executed"].map((t) => (
+                <button
+                  key={t}
+                  onClick={() => setTab(t)}
+                  style={{
+                    padding: "10px 22px",
+                    borderRadius: 10,
+                    border: "none",
+                    cursor: "pointer",
+                    background: tab === t ? "#1d4ed8" : "transparent",
+                    color: tab === t ? "#fff" : "#1d4ed8",
+                    fontWeight: 600,
+                  }}
+                >
+                  {t.toUpperCase()}
+                </button>
+              ))}
+            </div>
           </div>
-        ))}
-      </div>
-    </section>
+
+          {/* CARDS */}
+          <div style={{ overflow: "hidden" }}>
+            <div
+              ref={trackRef}
+              style={{ display: "flex", gap: 20, transition: "0.4s" }}
+            >
+              {projects.map((p, i) => {
+                const proj =
+                  typeof p === "string" ? { title: p, images: [] } : p;
+                const mainImg = proj.images?.[0];
+
+                return (
+                  <div
+                    key={i}
+                    onClick={() => openModal(proj, i)}
+                    style={{
+                      minWidth: 270,
+                      background: "#fff",
+                      borderRadius: 18,
+                      overflow: "hidden",
+                      cursor: "pointer",
+                      border: "1px solid #e5e7eb",
+                      boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
+                    }}
+                  >
+                  
+                    {/* MAIN IMAGE */}
+                    <div
+                      style={{
+                        height: 180,
+                        background: "#dbeafe",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {proj.images && proj.images.length > 0 ? (
+                        <img
+                          src={proj.images[0]}
+                          alt="project"
+                          style={{
+                            width: "100%",
+                            height: "100%",
+                            objectFit: "cover",
+                            objectPosition: "center",
+                          }}
+                        />
+                      ) : (
+                        <div style={{ textAlign: "center", paddingTop: 60 }}>
+                          🏗️
+                        </div>
+                      )}
+                    </div>
+
+                    {/* THUMBNAILS */}
+                    <div style={{ display: "flex", gap: 5, padding: 8 }}>
+                      {proj.images?.slice(0, 3).map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={img}
+                          alt={`thumb-${idx}`}
+                          style={{
+                            width: 45,
+                            height: 45,
+                            objectFit: "cover",
+                            borderRadius: 6,
+                            border: "1px solid #e5e7eb",
+                          }}
+                        />
+                      ))}
+
+                      {/* +MORE BOX */}
+                      {proj.images?.length > 3 && (
+                        <div
+                          style={{
+                            width: 45,
+                            height: 45,
+                            borderRadius: 6,
+                            background: "#1d4ed8",
+                            color: "#fff",
+                            fontSize: 12,
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontWeight: 600,
+                          }}
+                        >
+                          +{proj.images.length - 3}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* TEXT */}
+                    <div style={{ padding: 14 }}>
+                      <h4
+                        style={{
+                          fontSize: 14,
+                          fontWeight: 700,
+                          color: "#0f172a",
+                        }}
+                      >
+                        {proj.title}
+                      </h4>
+                      <p style={{ fontSize: 12, color: "#64748b" }}>
+                        {proj.location || "Pakistan"}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* MODAL */}
+          {selected && (
+            <div
+              onClick={() => setSelected(null)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(2,6,23,0.7)",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  width: "90%",
+                  maxWidth: 700,
+                  background: "#fff",
+                  borderRadius: 20,
+                  overflow: "hidden",
+                }}
+              >
+                {/* MAIN IMAGE */}
+                <img
+                  src={selected.proj.images?.[activeImg]}
+                  // style={{ width: "100%", height: 300, objectFit: "cover" }}
+                  style={{
+                    width: "100%",
+                    height: "auto",
+                    maxHeight: 500,
+                    objectFit: "contain",
+                    background: "#000",
+                    imageOrientation: "from-image"
+                  }}
+                />
+
+                {/* THUMBNAILS */}
+                <div style={{ display: "flex", gap: 10, padding: 10 }}>
+                  {selected.proj.images?.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      onClick={() => setActiveImg(i)}
+                      style={{
+                        width: 70,
+                        height: 60,
+                        objectFit: "cover",
+                        borderRadius: 8,
+                        cursor: "pointer",
+                        border:
+                          activeImg === i
+                            ? "2px solid #1d4ed8"
+                            : "1px solid #e5e7eb",
+                      }}
+                    />
+                  ))}
+                </div>
+
+                <div style={{ padding: 20 }}>
+                  <h2 style={{ color: "#0f172a" }}>{selected.proj.title}</h2>
+                  <p style={{ color: "#64748b" }}>{selected.proj.location}</p>
+
+                  <button
+                    onClick={() => setSelected(null)}
+                    style={{
+                      marginTop: 15,
+                      padding: "10px 18px",
+                      background: "#1d4ed8",
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: 10,
+                      cursor: "pointer",
+                    }}
+                  >
+                    Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+    </>
   );
 }
