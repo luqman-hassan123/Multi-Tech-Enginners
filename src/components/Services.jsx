@@ -12,8 +12,12 @@ export default function Services() {
       id="services"
       ref={ref}
       style={{
-        padding: "100px 24px",
+        // padding: "100px 24px",
+        // background: "#03102f",
         background: "#03102f",
+        color: "#bfdbfe",
+        position: "relative",
+        overflow: "hidden",
       }}
     >
       <SectionHeader tag="What We Do" title="Our Services" />
@@ -35,9 +39,13 @@ export default function Services() {
               background: hovered === i ? "#0f2d6b" : "#061a4a",
               padding: 28,
               borderRadius: 16,
-              border: hovered === i ? "1px solid #3b82f6" : "1px solid transparent",
+              border:
+                hovered === i ? "1px solid #3b82f6" : "1px solid transparent",
               transform: hovered === i ? "translateY(-6px)" : "translateY(0)",
-              boxShadow: hovered === i ? "0 12px 40px rgba(59,130,246,0.4)" : "0 2px 10px rgba(0,0,0,0.3)",
+              boxShadow:
+                hovered === i
+                  ? "0 12px 40px rgba(59,130,246,0.4)"
+                  : "0 2px 10px rgba(0,0,0,0.3)",
               transition: "all 0.3s ease",
               cursor: "default",
             }}

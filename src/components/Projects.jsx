@@ -137,7 +137,6 @@ export default function Projects() {
                       boxShadow: "0 10px 30px rgba(0,0,0,0.05)",
                     }}
                   >
-                  
                     {/* MAIN IMAGE */}
                     <div
                       style={{
@@ -256,7 +255,7 @@ export default function Projects() {
                     maxHeight: 500,
                     objectFit: "contain",
                     background: "#000",
-                    imageOrientation: "from-image"
+                    imageOrientation: "from-image",
                   }}
                 />
 

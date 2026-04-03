@@ -4,130 +4,164 @@ import SectionHeader from "./SectionHeader";
 
 export default function Team() {
   const [hovered, setHovered] = useState(null);
+  const [selected, setSelected] = useState(null);
 
   return (
     <section
       id="team"
       style={{
         padding: "100px 24px",
-        background: "#03102f",
+        background: "#FFFFFF",
         position: "relative",
         overflow: "hidden",
       }}
     >
-      {/* Decorative background glow */}
-      <div style={{
-        position: "absolute", top: "50%", left: "50%",
-        transform: "translate(-50%, -50%)",
-        width: 600, height: 600, borderRadius: "50%",
-        background: "radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)",
-        pointerEvents: "none",
-      }} />
+      {/* Glow */}
+      <div
+        style={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          width: 600,
+          height: 600,
+          borderRadius: "50%",
+          background:
+            "radial-gradient(circle, rgba(59,130,246,0.05) 0%, transparent 70%)",
+          pointerEvents: "none",
+        }}
+      />
 
-      <SectionHeader tag="Leadership" title="Our Team" />
+      <SectionHeader
+        tag="Leadership"
+        title="Our Team"
+        style={{
+          color: "#1d4ed8",
+          fontWeight: 800,
+          textShadow: "0 2px 8px rgba(29,78,216,0.15)",
+        }}
+      />
 
-      <div style={{
-        maxWidth: "80rem",
-        margin: "0 auto",
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        gap: 28,
-      }}>
-        {TEAM.map((m, i) => (
-          <div
-            key={i}
-            onMouseEnter={() => setHovered(i)}
-            onMouseLeave={() => setHovered(null)}
-            style={{
-              background: hovered === i
-                ? "linear-gradient(135deg, #0f2d6b, #1d4ed8)"
-                : "linear-gradient(135deg, #061a4a, #0a2158)",
-              border: hovered === i ? "1px solid #3b82f6" : "1px solid rgba(255,255,255,0.06)",
-              borderRadius: 20,
-              padding: "36px 28px",
-              textAlign: "center",
-              transform: hovered === i ? "translateY(-8px)" : "translateY(0)",
-              boxShadow: hovered === i
-                ? "0 20px 60px rgba(59,130,246,0.25)"
-                : "0 4px 20px rgba(0,0,0,0.3)",
-              transition: "all 0.35s ease",
-              cursor: "default",
-              position: "relative",
-              overflow: "hidden",
-            }}
-          >
-            {/* Card shimmer line */}
-            <div style={{
-              position: "absolute", top: 0, left: 0, right: 0,
-              height: 3,
-              background: hovered === i
-                ? "linear-gradient(90deg, #3b82f6, #93c5fd, #3b82f6)"
-                : "transparent",
-              transition: "all 0.35s ease",
-            }} />
+      {/* CENTER WRAPPER FIX */}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, 350px)", // ✅ perfect centering
+            gap: 28,
+            justifyContent: "center",
+            maxWidth: "1400px",
+            width: "100%",
+          }}
+        >
+          {TEAM.map((m, i) => {
+            const isOpen = selected === i;
 
-            {/* Avatar circle */}
-            <div style={{
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              background: hovered === i
-                ? "linear-gradient(135deg, #3b82f6, #60a5fa)"
-                : "linear-gradient(135deg, #1d4ed8, #2563eb)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              margin: "0 auto 20px",
-              fontSize: "1.5rem",
-              fontWeight: 800,
-              color: "#fff",
-              boxShadow: hovered === i
-                ? "0 0 0 4px rgba(96,165,250,0.3), 0 8px 24px rgba(59,130,246,0.4)"
-                : "0 0 0 3px rgba(59,130,246,0.15)",
-              transition: "all 0.35s ease",
-              transform: hovered === i ? "scale(1.1)" : "scale(1)",
-            }}>
-              {m.initials}
-            </div>
+            return (
+              <div
+                key={i}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => setSelected(isOpen ? null : i)}
+                style={{
+                  background: isOpen
+                    ? "linear-gradient(135deg, #1d4ed8, #3b82f6)"
+                    : hovered === i
+                    ? "linear-gradient(135deg, #0f2d6b, #1d4ed8)"
+                    : "linear-gradient(135deg, #061a4a, #0a2158)",
 
-            <h3 style={{
-              color: hovered === i ? "#fff" : "#e2e8f0",
-              fontSize: "1.1rem",
-              fontWeight: 700,
-              margin: "0 0 8px",
-              transition: "color 0.3s ease",
-            }}>
-              {m.name}
-            </h3>
+                  border:
+                    hovered === i || isOpen
+                      ? "1px solid #3b82f6"
+                      : "1px solid rgba(255,255,255,0.06)",
 
-            {/* Role badge */}
-            <span style={{
-              display: "inline-block",
-              padding: "4px 14px",
-              borderRadius: 999,
-              background: hovered === i ? "rgba(147,197,253,0.15)" : "rgba(59,130,246,0.1)",
-              color: hovered === i ? "#93c5fd" : "#60a5fa",
-              fontSize: "0.8rem",
-              fontWeight: 500,
-              transition: "all 0.3s ease",
-            }}>
-              {m.role}
-            </span>
+                  borderRadius: 20,
+                  padding: "30px",
+                  textAlign: "center",
+                  cursor: "pointer",
+                  transition: "all 0.35s ease",
+                  position: "relative",
+                  overflow: "hidden",
 
-            {/* Optional bio */}
-            {m.bio && (
-              <p style={{
-                color: "rgba(255,255,255,0.5)",
-                fontSize: "0.85rem",
-                lineHeight: 1.7,
-                marginTop: 14,
-                marginBottom: 0,
-              }}>
-                {m.bio}
-              </p>
-            )}
-          </div>
-        ))}
+                  transform: isOpen
+                    ? "scale(1.05)"
+                    : hovered === i
+                    ? "translateY(-8px)"
+                    : "translateY(0)",
+                }}
+              >
+                {/* Avatar */}
+                <div
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRadius: "50%",
+                    background:
+                      hovered === i || isOpen
+                        ? "linear-gradient(135deg, #3b82f6, #60a5fa)"
+                        : "linear-gradient(135deg, #1d4ed8, #2563eb)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    margin: "0 auto 16px",
+                    fontSize: "1.5rem",
+                    fontWeight: 800,
+                    color: "#fff",
+                  }}
+                >
+                  {m.initials}
+                </div>
+
+                <h3 style={{ color: "#fff", fontWeight: 700 }}>
+                  {m.name}
+                </h3>
+
+                <span
+                  style={{
+                    display: "inline-block",
+                    marginTop: 6,
+                    padding: "4px 12px",
+                    borderRadius: 999,
+                    background: "rgba(147,197,253,0.15)",
+                    color: "#93c5fd",
+                    fontSize: "0.8rem",
+                  }}
+                >
+                  {m.role}
+                </span>
+
+                {/* ✅ SEE MORE OR DESCRIPTION */}
+                {!isOpen ? (
+                  <p
+                    style={{
+                      marginTop: 12,
+                      fontSize: "0.8rem",
+                      color: "rgba(255,255,255,0.5)",
+                    }}
+                  >
+                    Click to see more
+                  </p>
+                ) : (
+                  <p
+                    style={{
+                      marginTop: 12,
+                      fontSize: "0.85rem",
+                      color: "rgba(255,255,255,0.85)",
+                      lineHeight: 1.6,
+                    }}
+                  >
+                    {m.desc}
+                  </p>
+                )}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

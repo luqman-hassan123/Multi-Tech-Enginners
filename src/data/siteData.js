@@ -54,9 +54,11 @@ export const EXECUTED = [
 ];
 
 export const TEAM = [
-  { name: "Niaz Muhammad Khan", role: "Founder & CEO", initials: "NK", desc: "Founded Multi Tech Engineers in 2007." },
-  { name: "Asfandyar Khan", role: "Director", initials: "AK", desc: "Leads business development and operations." },
-  { name: "Muhammad Kamil", role: "General Manager", initials: "MK", desc: "Oversees daily operations." },
+  { name: "Niaz Muhammad Khan", role: "Founder & CEO", initials: "NK", desc: "Founded Multi Tech Engineers in 2007, transforming it from a maintenance service provider into a leading engineering firm specializing in electrical, mechanical, HVAC, and civil works in Pakistan and abroad." },
+  { name: "Asfandyar Khan", role: "Director", initials: "AK", desc: "Leads business development and operations, focusing on company growth, innovation, and project excellence." },
+  { name: "Muhammad Kamil", role: "General Manager", initials: "MK", desc: "Oversees daily operations and project execution, ensuring efficiency, quality, and timely delivery of all engineering solutions." },
+  { name: "Arshad Khan", role: "General Manager", initials: "AK", desc: "Contributes to company operations and support." },
+  { name: "Faisal Khan", role: "Team Member", initials: "FK", desc: "Supports technical and operational activities." },
 ];
 
 export const VALUES = [
