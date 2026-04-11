@@ -1,23 +1,28 @@
 import { useState, useEffect, useRef } from "react";
 
+import image1 from "../assets/projectImages/hero/const1.jpeg";
+import image2 from "../assets/projectImages/hero/elecT1.jpg";
+import image3 from "../assets/projectImages/hero/civil1.jpg";
+import image4 from "../assets/projectImages/hero/HVAC.jpg";
+
 const IMAGES = [
   {
-    url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80",
+    url: image1,
     label: "Construction Excellence",
     icon: "🏗️",
   },
   {
-    url: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800&q=80",
+    url: image2,
     label: "Electrical Engineering",
     icon: "⚡",
   },
   {
-    url: "https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&q=80",
+    url: image3,
     label: "Civil Infrastructure",
     icon: "🌉",
   },
   {
-    url: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800&q=80",
+    url: image4,
     label: "HVAC & Mechanical",
     icon: "⚙️",
   },

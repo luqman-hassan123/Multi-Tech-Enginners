@@ -12,12 +12,13 @@ export default function Services() {
       id="services"
       ref={ref}
       style={{
-        // padding: "100px 24px",
-        // background: "#03102f",
+        padding: "100px 24px",
         background: "#03102f",
-        color: "#bfdbfe",
-        position: "relative",
-        overflow: "hidden",
+        // background: "#bfdbfe", // ✅ light blue applied
+        // background: "#c7e0ff",
+        // color: "#03102f", // 👈 optional: change text to dark for contrast
+        // position: "relative",
+        // overflow: "hidden",
       }}
     >
       <SectionHeader tag="What We Do" title="Our Services" />
